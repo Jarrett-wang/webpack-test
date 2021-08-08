@@ -1,0 +1,35 @@
+@import '~antd/dist/antd.less';
+@import './overwrite-antd';
+@primary-color: #108EE9; // 全局主色
+@link-color: #108EE9; // 链接色
+.ant-table-thead > tr > th {
+  background-color: #108EE9 !important;
+  color: #fff !important;
+}
+.ant-table-column-sorter{
+  color:#fff
+}
+.ant-tooltip-inner{
+  color:#999
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #108EE9!important;
+  border-color: #108EE9!important;
+}
+
+
+// 二级tab页样式
+.level2Tab {
+  .custom-tab(@bgColor: #E3E3E3, @color: #E3E3E3) {
+    background-color: @bgColor !important;
+    border: 2px solid @color !important;
+    border-bottom: none !important;
+  }
+  .ant-tabs-tab {
+    .custom-tab();
+  }
+  .ant-tabs-tab-active {
+    color: @primary-color !important;
+    .custom-tab(#fff, @primary-color);
+  }
+}
