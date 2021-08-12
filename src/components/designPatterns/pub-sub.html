@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const Observer = (function () {
+      let message = {}
+      return {
+        sub: function (type, fn) {
+          if (message[type] === undefined) {
+            message[type] = [fn]
+          } else {
+            message[type].push(fn)
+          }
+        },
+        pub: function (type, args) {
+          if (!message[type]) return;
+          const events = {
+            type, // 消息类型
+            args: args || {} // 消息携带的水
+          }
+          const len = message[type].length
+          for (let i = 0; i < len; i++) {
+            // 依次执行注册的消息对应的动作序列
+            message[type][i].call(this, events)
+          }
+        },
+        remove: function (type, fn) {
+          if (message[type] instanceof Array) {
+            for (let i = message[type].length - 1; i >= 0; i--) {
+              message[type][i] === fn && message[type].splice(i, 1);
+            }
+          }
+        }
+      }
+    })()
+    const showMessage = (e) => {
+      console.log(e.type, e.args.msg)
+    }
+    const noticeWords = (e) => {
+      console.log('通知内容为', e.args.msg)
+    }
+    Observer.sub('test', showMessage)
+    Observer.sub('test', noticeWords)
+    Observer.pub('test', {msg: '传递参数1'})
+    Observer.pub('test', {msg: '传递参数2'})
+    Observer.pub('test', {msg: '传递参数3'})
+    Observer.pub('test', {msg: '下午开会'})
+    Observer.remove('test', showMessage)
+    console.log('_________________________')
+    Observer.pub('test', {msg: '传递参数4'})
+  </script>
+</body>
+
+</html>

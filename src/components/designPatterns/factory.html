@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>工厂模式</title>
+</head>
+<body>
+<div>
+  工厂模式：通过对产品类的抽象，帮助我们创建对象。
+</div>
+<div>
+  案例：antdModal 弹窗
+</div>
+<script>
+  // 运动工厂
+  const SportFactory = function (type, content) {
+    if (this instanceof SportFactory) {
+      return new this[type](content)
+    } else {
+      return new SportFactory(type, content)
+    }
+  }
+
+  SportFactory.prototype = {
+    Football: function (content) {
+      this.intro = '足球在全世界范围都很流行'
+      this.getCelebrity = () => {
+        console.log(`著名球星有${content.join(',')}等。`)
+      }
+    },
+    Basketball: function (content) {
+      this.intro = '篮球流行于美国'
+      this.getCelebrity = () => {
+        console.log(`著名球星有${content.join(',')}等。`)
+      }
+    },
+    Tennis: function (content) {
+      this.intro = '每年都有很多网球系列赛'
+      this.getCelebrity = () => {
+        console.log(`著名球星有${content.join(',')}等。`)
+      }
+    }
+  }
+
+  const tennis = new SportFactory('Tennis', ['费德勒', '纳达尔', '小威廉姆斯'])
+  tennis.getCelebrity()
+
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>外观模式</title>
+</head>
+<body>
+<div>
+  <button id="btn">
+    按钮
+  </button>
+</div>
+  <script>
+    function addEvent (dom, type, fn) {
+      // 对于支持dom2级时间处理程序 addEventListener 方法的浏览起
+      if (dom.addEventListener) {
+        dom.addEventListener(type, fn, false)
+      } else if (dom.attachEvent) {
+        // 对于IE浏览器
+        dom.attachEvent('on' + type, fn)
+      }
+    }
+    const btn = document.getElementById('btn')
+    addEvent(btn, 'click', function () {
+      alert('helloWorld')
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>享元模式</title>
+</head>
+<body>
+  <div>享元模式：运用共享技术有效地支持大量的细粒度的对象，避免对象间拥有相同内容造成多余开销。</div>
+  <div>案例：池技术、共享dom</div>
+  <div>本质：缓存共享对象，降低内存消耗</div>
+  <br />
+  <div id="container"></div>
+  <button class="prev">上一页</button>
+  <button class="next">下一页</button>
+  <script>
+
+    const sharedMode = function() {
+      // 已创建的元素
+      const created = [];
+      function create() {
+        // 元素数量没达到num 之前创建并插入一个新元素
+        const dom = document.createElement('div');
+        document.getElementById('container').appendChild(dom);
+        created.push(dom);
+        return dom;
+      }
+      return {
+        // 获取当前要修改数据的dom
+        getDiv: function () {
+          if(created.length < num) {
+            return create();
+          } else {
+            // 拿到第一个元素
+            const div = created.shift();
+            // 放到最后
+            created.push(div);
+            return div;
+          }
+        }
+      }
+    }();
+
+    // 每页的记录条数
+    const num = 4;
+    // 所有数据
+    const article = Array.from(new Array(15), (item, index) => `第 ${index + 1} 条`); // 24
+
+    // 当前页数
+    let page = 0,
+      len = article.length,
+      // 当前页的第一条记录的下标
+      nowIndex = 0;
+
+    // 初始化第一页内容
+    for(let i = 0; i < num; i++) {
+      sharedMode.getDiv().innerHTML = article[i];
+    }
+
+    // 点击下一页
+    document.getElementsByClassName('next')[0].onclick = function () {
+      // 不足num条记录或当前页是最后一页
+      if(article.length < num || len <= nowIndex + num) {
+        alert('没有下一页了！');
+        return;
+      }
+      nowIndex = ++page * num;
+      for(let j = 0; j < num; j++) {
+        if(article[nowIndex + j]) {
+          sharedMode.getDiv().innerHTML = article[nowIndex + j];
+        } else {
+          sharedMode.getDiv().innerHTML = "";
+        }
+      }
+    };
+
+    // 点击上一页
+    document.getElementsByClassName('prev')[0].onclick = function () {
+      // 当前是第一页
+      if(nowIndex <= 0) {
+        alert('没有上一页了！');
+        return;
+      }
+      nowIndex = --page * num;
+      for(let j = 0;j < num; j++) {
+        if(article[nowIndex + j]) {
+          sharedMode.getDiv().innerHTML = article[nowIndex + j];
+        } else {
+          sharedMode.getDiv().innerHTML = "";
+        }
+      }
+    };
+
+  </script>
+</body>
+</html>

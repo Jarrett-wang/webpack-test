@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>简单工厂模式</title>
+</head>
+<body>
+<div>
+  简单工厂模式：快速创建指定的对象
+</div>
+<script>
+  const Basketball = function () {
+    this.intro = '篮球流行于美国'
+  }
+  Basketball.prototype = {
+    getMember: function () {
+      console.log('每个队伍需要5名队员')
+    },
+    getBallSize: function () {
+      console.log('篮球很大')
+    }
+  }
+
+  const Football = function () {
+    this.intro = '足球在全世界范围都很流行'
+  }
+  Football.prototype = {
+    getMember: function () {
+      console.log('每个队伍需要11名队员')
+    },
+    getBallSize: function () {
+      console.log('足球很大')
+    }
+  }
+
+  const Tennis = function () {
+    this.intro = '每年都有很多网球系列赛'
+  }
+  Tennis.prototype = {
+    getMember: function () {
+      console.log('每个队伍1名队员')
+    },
+    getBallSize: function () {
+      console.log('网球很小')
+    }
+  }
+
+  // 运动工厂
+  const SportFactory = function (name) {
+    switch (name) {
+      case 'NBA':
+        return new Basketball()
+      case 'WorldCup':
+        return new Football()
+      case 'FrenchOpen':
+        return new Tennis()
+    }
+  }
+
+  const football = SportFactory('WorldCup')
+  console.log(football)
+  console.log(football.intro)
+  football.getMember()
+</script>
+</body>
+</html>

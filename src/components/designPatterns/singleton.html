@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>单例模式</title>
+</head>
+<body>
+<div>单例模式：又称单体模式，是只允许实例化一次的对象类。</div>
+<script>
+  const SingleItem = (function () {
+    let instance
+    let getObject = function (name, age) {
+      this.name = name
+      this.age = age
+    }
+    // 返回一个创建单例的函数
+    return function (name, age) {
+      return instance || (instance = new getObject(name, age))
+    }
+  })()
+
+  let obj1 = SingleItem("mx", 19),
+    obj2 = SingleItem("mx", 49)
+
+  console.log(obj1 === obj2)
+
+</script>
+</body>
+</html>
