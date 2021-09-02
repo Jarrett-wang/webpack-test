@@ -89,6 +89,7 @@ const GlobalStyle = createGlobalStyle`
     width:340px
   }
 `;
+console.log(1234)
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <GlobalStyle />
